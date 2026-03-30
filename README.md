@@ -80,6 +80,29 @@ For dedicated API testing, import the collection found in:
 > Registration now requires email verification. The expected flow is: **Register -> Verify OTP -> Login**.
 > The Postman collection automatically handles JWT storage! Just run the **Login** request after verifying your email, and all subsequent authenticated calls will use the captured token.
 
+### 3. Endpoints Overview
+
+#### Auth Endpoints (`/api/v1/auth`)
+| Method | Endpoint | Description | Auth Required |
+| :--- | :--- | :--- | :--- |
+| POST | `/register` | Register a new user (Student/Instructor) | No |
+| POST | `/verify-otp` | Verify account via email OTP | No |
+| POST | `/resend-otp` | Resend verification OTP | No |
+| POST | `/login` | Authenticate and receive JWT | No |
+| GET | `/me` | Get current user's security profile | Yes |
+
+#### User Management (`/api/v1/users`)
+| Method | Endpoint | Description | Auth Required | Roles |
+| :--- | :--- | :--- | :--- | :--- |
+| GET | `/` | List all users (Paginated) | Yes | Admin |
+| GET | `/me` | Get profile details of logged-in user | Yes | Any |
+| PATCH | `/me` | Update profile information | Yes | Any |
+| PATCH | `/me/password` | Change account password | Yes | Any |
+| GET | `/:id` | Get details of a specific user | Yes | Admin |
+| PATCH | `/:id/role` | Change user's role | Yes | Admin |
+| PATCH | `/:id/deactivate`| Disable a user's account | Yes | Admin |
+| PATCH | `/:id/activate` | Enable a user's account | Yes | Admin |
+
 ---
 
 ## 🔍 Database Management
