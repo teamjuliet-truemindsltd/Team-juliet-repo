@@ -1,156 +1,148 @@
-# LMS Backend Boilerplate Template
+# 🎓 TrueMinds TalentFlow LMS - Backend
 
-This repository contains a backend boilerplate for the LMS project built with [NestJS](https://nestjs.com/), TypeORM, and MySQL. It includes a foundational architecture with JWT-based authentication so the team can quickly hit the ground running.
-
-## 🚀 Getting Started
-
-This template is designed to give you a head start. You can run the underlying infrastructure (MySQL) via Docker, or you can run everything entirely locally using your own MySQL server.
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (v16 or higher)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
-- [Docker](https://www.docker.com/) and Docker Compose (if using Docker for infrastructure)
-- MySQL (if running locally without Docker)
+Welcome to the backend of the **TrueMinds TalentFlow LMS**, a robust and scalable learning management system built with the modern web stack. This repository provides a solid foundation for building a production-ready educational platform.
 
 ---
 
-### Step 1: Environment Configuration
+## 🛠 Tech Stack
 
-First, you'll need to set up your environment variables. 
-Copy the example `.env` file to create your own local `.env` file:
+The project leverages industry-standard technologies to ensure high performance, security, and developer productivity:
+
+| Category | Technology |
+| :--- | :--- |
+| **Framework** | [NestJS](https://nestjs.com/) (v11+) |
+| **Language** | [TypeScript](https://www.typescriptlang.org/) |
+| **Database** | [MySQL](https://www.mysql.com/) (v8.0) |
+| **ORM** | [TypeORM](https://typeorm.io/) |
+| **Auth** | [JWT](https://jwt.io/) & [Passport](https://www.passportjs.org/) |
+| **Security** | Bcrypt (Password Hashing), RBAC (Role-Based Access Control) |
+| **API Docs** | [Swagger / OpenAPI 3.0](https://swagger.io/) |
+| **Infrastucture** | [Docker](https://www.docker.com/) |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Node.js**: v18 or higher (v22 recommended)
+- **Database**: MySQL 8.0 or Docker Compose
+- **Package Manager**: npm
+
+### Step 1: Environment Setup
+
+Copy the example environment file and configure your local settings:
 
 ```bash
 cp .env.example .env
 ```
 
-Ensure the credentials in `.env` match how you're running the infrastructure. The default values in `.env.example` perfectly correspond to the credentials exposed by the `docker-compose.yml` file.
+### Step 2: Launch Infrastructure (Docker)
 
-### Step 2: Running the Infrastructure
-
-You can run the required infrastructure (MySQL) in two ways:
-
-#### Option A: Using Docker (Recommended)
-
-To spin up the MySQL database quickly using Docker Compose, run the following command in the root folder:
+To spin up the MySQL database quickly:
 
 ```bash
 docker compose up -d
 ```
-This will start a MySQL container (`lms_mysql`) exposed on port `3306` with the default database `lms_db` and credentials matching the `.env.example`.
 
-#### Option B: Running Locally (No Docker)
+### Step 3: Run the Application
 
-If you prefer not to use Docker, ensure you have a MySQL server installed and running on your local machine.
-1. Create a MySQL database named `lms_db`.
-2. Update the `.env` file with your local MySQL server's username and password.
+```bash
+# Install dependencies
+npm install
 
----
+# Start in development mode (watch mode)
+npm run start:dev
 
-### Step 3: Running the Application
-
-Once your database is up and running, follow these steps to start the NestJS backend:
-
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-2. **Run the application:**
-   ```bash
-   # development mode
-   npm run start
-   
-   # watch mode (restarts on file changes)
-   npm run start:dev
-   
-   # production mode
-   npm run start:prod
-   ```
-
-Your backend should now be running locally. TypeORM is configured to connect to your database and handle models.
+# Build for production
+npm run build
+npm run start:prod
+```
 
 ---
 
-## 🗺️ MILESTONE 3 - User Flow Overview (BE)
+## 📖 API Documentation
 
-Understanding how the planned feature set maps to the backend architecture will help the team grasp the project quickly. Here is the core flow and the corresponding modules you will interact with or need to build:
+The backend is fully documented and testable out of the box.
 
-### Step 1 – User Registration / Login
-- **Flow**: User signs up or logs into the platform.
-- **Relevant Modules**: `AuthModule` (handles login/signup logic, JWT issuance) and `UsersModule` (manages the `User` entity and database records).
+### 1. Swagger UI
+Interactive documentation is available at:
+👉 **[http://localhost:3000/api/v1/docs](http://localhost:3000/api/v1/docs)**
 
-### Step 2 – Dashboard Access
-- **Flow**: User lands on their personal dashboard displaying courses and progress.
-- **Implementation**: *Team to architect the optimal module structure (e.g., dedicated dashboard module or aggregation endpoint).*
+### 2. Postman Collection
+For dedicated API testing, import the collection found in:
+📁 `docs/postman/TalentFlow_LMS.postman_collection.json`
 
-### Step 3 – Browse Courses
-- **Flow**: User explores available courses or learning programs.
-- **Implementation**: *Needs querying, filtering, and listing capabilities.*
+> [!TIP]
+> The Postman collection automatically handles JWT storage! Just run the **Login** request, and all subsequent authenticated calls will use the captured token.
 
-### Step 4 – Enroll in Course
-- **Flow**: User selects a course and begins learning.
-- **Implementation**: *Requires managing the relationship between Users and Courses and tracking enrollment state.*
+---
 
-### Step 5 – Access Lessons
-- **Flow**: User watches videos, reads materials, or completes modules.
-- **Implementation**: *Requires handling retrieval for individual learning materials tied to a course.*
+## 📂 Folder Structure
 
-### Step 6 – Submit Assignments
-- **Flow**: User completes assignments and submits them for evaluation.
-- **Implementation**: *Requires managing tasks, file uploads, evaluation, and user answers.*
+The project follows a modular architecture for high maintainability:
 
-### Step 7 – Track Progress
-- **Flow**: User monitors their course completion status.
-- **Implementation**: *Requires tracking completed lessons/assignments against total course requirements.*
+```text
+src/
+├── app.module.ts          # Root module
+├── main.ts                # Entry point & Swagger configuration
+├── auth/                  # Authentication, JWT, and Guards
+│   ├── decorators/        # Custom decorators (e.g., @Roles, @CurrentUser)
+│   ├── dto/               # Auth-related DTOs
+│   ├── guards/            # JWT and Role-based guards
+│   └── ...
+├── common/                # Shared utilities, filters, and pipes
+│   └── enums/             # Global enums (e.g., UserRole)
+└── users/                 # Core User management module
+    ├── entities/          # TypeORM Entity definitions
+    ├── dto/               # User-related DTOs
+    └── ...
+```
 
-### Step 8 – Collaborate with Peers
-- **Flow**: Users participate in discussions or group projects.
-- **Implementation**: *Requires handling forum posts, replies, and group interactivity.*
+---
+
+## 🔐 Security Highlights
+
+- **Bcrypt Hashing**: All passwords are salted and hashed using Bcrypt before being stored.
+- **JWT Authentication**: Stateless authentication using secure JSON Web Tokens.
+- **RBAC**: Fine-grained access control using `@Roles(UserRole.ADMIN)`.
+- **Validation**: Strict input validation using `class-validator` and global `ValidationPipe`.
 
 ---
 
 ## 🏗 Moving Forward: How to Use This Boilerplate
 
-This repository is just a **boilerplate template**. It has the foundational capabilities (like User entities and auth flows) mapped out, but relies on the team to expand it to cover all the functional requirements. 
+This repository is a **living template**. Here is how to expand it:
 
-Here is how you can move on from here:
-
-### 1. Understanding the Architecture
-The codebase follows a standard modular NestJS architecture:
-- `app.module.ts`: The root module that integrates TypeORM and configuration.
-- `src/auth/`: Contains JWT strategies, login/registration controllers, and guards.
-- `src/users/`: Contains the base User entity logic.
-
-### 2. Creating New Modules
-Use the NestJS CLI to quickly scaffold new resources. For example, to create a new `payments` module:
+### 1. Creating New Modules
+Use the Nest CLI to scaffold new features in seconds:
 ```bash
-npx nest g resource payments
-```
-Choose `REST API` when prompted. This will automatically generate your Controller, Service, Module, and Data Transfer Objects (DTOs), and register them.
-
-### 3. Adding New Entities
-When you create a new entity, ensure it extends TypeORM's `@Entity()`.
-Once created, register it within its module using `TypeOrmModule.forFeature([YourEntity])` and ensure it's picked up by TypeORM's connection in `app.module.ts`.
-
-### 4. Guarding Endpoints
-You can protect your API endpoints by utilizing the pre-configured guards (if available in the auth module):
-```typescript
-import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { RolesGuard } from '../auth/guards/roles.guard';
-import { Roles } from '../auth/decorators/roles.decorator';
-
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles('admin', 'instructor')
-@Get('restricted-data')
-getRestrictedData() {
-  return "Only admins and instructors can see this!";
-}
+npx nest g resource courses
 ```
 
-### 5. Testing
-Update test files (`*.spec.ts`) whenever adding new features to ensure overall suite health. Run tests via:
+### 2. Adding Entities
+Ensure your entities utilize the decorators from `typeorm`. Once created, register them in their respective module using `TypeOrmModule.forFeature([NewEntity])`.
+
+### 3. Protecting Routes
+Simply add the `@UseGuards(JwtAuthGuard, RolesGuard)` decorator to any controller or method that requires authorization.
+
+---
+
+## 🧪 Testing
+
 ```bash
+# Run unit tests
 npm run test
+
+# Run e2e tests
+npm run test:e2e
+
+# Generate coverage report
+npm run test:cov
 ```
+
+---
+
+## 📄 License
+
+This project is [UNLICENSED](LICENSE).

@@ -1,0 +1,44 @@
+src/app.module.ts(3,31): error TS2307: Cannot find module '@nestjs/typeorm' or its corresponding type declarations.
+src/auth/auth.controller.ts(2,67): error TS2307: Cannot find module '@nestjs/swagger' or its corresponding type declarations.
+src/auth/auth.controller.ts(39,30): error TS1272: A type referenced in a decorated signature must be imported with 'import type' or a namespace import when 'isolatedModules' and 'emitDecoratorMetadata' are enabled.
+src/auth/auth.module.ts(2,31): error TS2307: Cannot find module '@nestjs/typeorm' or its corresponding type declarations.
+src/auth/auth.module.ts(18,7): error TS2322: Type '(configService: ConfigService) => { secret: string; signOptions: { expiresIn: string; }; }' is not assignable to type '(...args: any[]) => JwtModuleOptions | Promise<JwtModuleOptions>'.
+  Type '{ secret: string; signOptions: { expiresIn: string; }; }' is not assignable to type 'JwtModuleOptions | Promise<JwtModuleOptions>'.
+    Type '{ secret: string; signOptions: { expiresIn: string; }; }' is not assignable to type 'JwtModuleOptions'.
+      The types of 'signOptions.expiresIn' are incompatible between these types.
+        Type 'string' is not assignable to type 'number | StringValue | undefined'.
+src/auth/auth.service.spec.ts(5,36): error TS2307: Cannot find module '@nestjs/typeorm' or its corresponding type declarations.
+src/auth/auth.service.spec.ts(8,25): error TS2307: Cannot find module 'bcrypt' or its corresponding type declarations.
+src/auth/auth.service.spec.ts(69,49): error TS2345: Argument of type '{ firstName: string; lastName: string; email: string; password: string; role: UserRole; }' is not assignable to parameter of type 'RegisterDto'.
+  Types of property 'role' are incompatible.
+    Type 'UserRole' is not assignable to type 'UserRole.STUDENT | UserRole.INSTRUCTOR'.
+src/auth/auth.service.spec.ts(76,41): error TS2345: Argument of type '{ firstName: string; lastName: string; email: string; password: string; role: UserRole; }' is not assignable to parameter of type 'RegisterDto'.
+  Types of property 'role' are incompatible.
+    Type 'UserRole' is not assignable to type 'UserRole.STUDENT | UserRole.INSTRUCTOR'.
+src/auth/auth.service.ts(2,34): error TS2307: Cannot find module '@nestjs/typeorm' or its corresponding type declarations.
+src/auth/auth.service.ts(3,28): error TS2307: Cannot find module 'typeorm' or its corresponding type declarations.
+src/auth/auth.service.ts(5,25): error TS2307: Cannot find module 'bcrypt' or its corresponding type declarations.
+src/auth/dto/login.dto.ts(2,29): error TS2307: Cannot find module '@nestjs/swagger' or its corresponding type declarations.
+src/auth/dto/register.dto.ts(8,29): error TS2307: Cannot find module '@nestjs/swagger' or its corresponding type declarations.
+src/database/seeds/admin.seed.ts(2,27): error TS2307: Cannot find module '../app.module' or its corresponding type declarations.
+src/database/seeds/admin.seed.ts(3,30): error TS2307: Cannot find module '../users/users.service' or its corresponding type declarations.
+src/database/seeds/admin.seed.ts(4,26): error TS2307: Cannot find module '../common/enums/user-role.enum' or its corresponding type declarations.
+src/database/seeds/admin.seed.ts(5,25): error TS2307: Cannot find module 'bcrypt' or its corresponding type declarations.
+src/database/seeds/admin.seed.ts(6,36): error TS2307: Cannot find module '@nestjs/typeorm' or its corresponding type declarations.
+src/database/seeds/admin.seed.ts(7,22): error TS2307: Cannot find module '../users/entities/user.entity' or its corresponding type declarations.
+src/database/seeds/admin.seed.ts(8,28): error TS2307: Cannot find module 'typeorm' or its corresponding type declarations.
+src/main.ts(4,48): error TS2307: Cannot find module '@nestjs/swagger' or its corresponding type declarations.
+src/users/dto/change-password.dto.ts(2,29): error TS2307: Cannot find module '@nestjs/swagger' or its corresponding type declarations.
+src/users/dto/change-role.dto.ts(2,29): error TS2307: Cannot find module '@nestjs/swagger' or its corresponding type declarations.
+src/users/dto/update-user.dto.ts(2,37): error TS2307: Cannot find module '@nestjs/swagger' or its corresponding type declarations.
+src/users/entities/user.entity.ts(7,8): error TS2307: Cannot find module 'typeorm' or its corresponding type declarations.
+src/users/users.controller.ts(2,77): error TS2307: Cannot find module '@nestjs/swagger' or its corresponding type declarations.
+src/users/users.controller.ts(35,35): error TS1272: A type referenced in a decorated signature must be imported with 'import type' or a namespace import when 'isolatedModules' and 'emitDecoratorMetadata' are enabled.
+src/users/users.controller.ts(42,26): error TS1272: A type referenced in a decorated signature must be imported with 'import type' or a namespace import when 'isolatedModules' and 'emitDecoratorMetadata' are enabled.
+src/users/users.controller.ts(51,26): error TS1272: A type referenced in a decorated signature must be imported with 'import type' or a namespace import when 'isolatedModules' and 'emitDecoratorMetadata' are enabled.
+src/users/users.module.ts(2,31): error TS2307: Cannot find module '@nestjs/typeorm' or its corresponding type declarations.
+src/users/users.service.spec.ts(3,36): error TS2307: Cannot find module '@nestjs/typeorm' or its corresponding type declarations.
+src/users/users.service.spec.ts(6,25): error TS2307: Cannot find module 'bcrypt' or its corresponding type declarations.
+src/users/users.service.ts(2,34): error TS2307: Cannot find module '@nestjs/typeorm' or its corresponding type declarations.
+src/users/users.service.ts(3,28): error TS2307: Cannot find module 'typeorm' or its corresponding type declarations.
+src/users/users.service.ts(4,25): error TS2307: Cannot find module 'bcrypt' or its corresponding type declarations.

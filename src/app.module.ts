@@ -19,8 +19,8 @@ import { UsersModule } from './users/users.module';
         host: configService.get<string>('DB_HOST', 'localhost'),
         port: configService.get<number>('DB_PORT', 3306),
         username: configService.get<string>('DB_USERNAME', 'root'),
-        password: configService.get<string>('DB_PASSWORD', 'test'),
-        database: configService.get<string>('DB_DATABASE', 'lms'),
+        password: configService.get<string>('DB_PASSWORD', 'password'),
+        database: configService.get<string>('DB_DATABASE', 'lms_db'),
         autoLoadEntities: true,
         synchronize: true, // for dev only
       }),
@@ -31,4 +31,4 @@ import { UsersModule } from './users/users.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
