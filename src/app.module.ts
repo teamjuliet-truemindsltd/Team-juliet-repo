@@ -5,6 +5,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { OutboxModule } from './outbox/outbox.module';
 
 @Module({
   imports: [
@@ -27,6 +30,9 @@ import { UsersModule } from './users/users.module';
     }),
     AuthModule,
     UsersModule,
+    NotificationsModule,
+    ScheduleModule.forRoot(),
+    OutboxModule,
   ],
   controllers: [AppController],
   providers: [AppService],

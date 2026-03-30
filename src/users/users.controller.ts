@@ -16,7 +16,7 @@ import { UserRole } from '../common/enums/user-role.enum';
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @ApiOperation({ summary: 'Get all users (Admin only)' })
   @ApiQuery({ name: 'page', required: false, type: Number })

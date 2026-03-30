@@ -37,6 +37,9 @@ Copy the example environment file and configure your local settings:
 cp .env.example .env
 ```
 
+> [!IMPORTANT]
+> Make sure to open your new `.env` file and fill in your **SMTP Mail** credentials (e.g., a Gmail App Password) so that the system can deliver OTP verification emails.
+
 ### Step 2: Launch Infrastructure (Docker)
 
 To spin up the MySQL database quickly:
@@ -74,7 +77,33 @@ For dedicated API testing, import the collection found in:
 📁 `docs/postman/TalentFlow_LMS.postman_collection.json`
 
 > [!TIP]
-> The Postman collection automatically handles JWT storage! Just run the **Login** request, and all subsequent authenticated calls will use the captured token.
+> Registration now requires email verification. The expected flow is: **Register -> Verify OTP -> Login**.
+> The Postman collection automatically handles JWT storage! Just run the **Login** request after verifying your email, and all subsequent authenticated calls will use the captured token.
+
+---
+
+## 🔍 Database Management
+
+To view and manage the underlying MySQL database in your browser:
+1. Ensure the Docker containers are running: `docker compose up -d`.
+2. Open your browser and navigate to: **[http://localhost:8080](http://localhost:8080)**.
+3. Use the following credentials to log in to **phpMyAdmin**:
+   - **Server**: `mysql`
+   - **Username**: `root`
+   - **Password**: `password` (matching the `MYSQL_ROOT_PASSWORD` in your config).
+
+---
+
+## 👑 Admin Seeding
+
+For security reasons, the public registration endpoint (`/api/v1/auth/register`) only allows for **Student** or **Instructor** roles. To create an initial **Admin** user:
+
+1. Ensure your database is running.
+2. Run the pre-configured seeding script:
+   ```bash
+   npm run seed:admin
+   ```
+   *Note: This script will create a default admin with the email `admin@trueminds.io` and password `superadmin123` if it doesn't already exist.*
 
 ---
 
@@ -98,6 +127,16 @@ src/
     ├── dto/               # User-related DTOs
     └── ...
 ```
+
+---
+
+## ✉️ Notifications & OTP System
+
+The platform includes a robust **One-Time Password (OTP)** verification flow and an asynchronous notification system.
+
+- **Verified Users Only**: New users cannot log in until they verify their email via the `/api/v1/auth/verify-otp` endpoint.
+- **Transactional Outbox Pattern**: To guarantee email delivery, OTP emails are not sent synchronously during the registration request. Instead, they are safely written to the `outbox` database table within the same **database transaction** as the user creation.
+- **Background Worker**: A scheduled background cron job (`@nestjs/schedule`) continuously scans the outbox and delivers pending emails using NodeMailer, complete with automatic retries for failed deliveries.
 
 ---
 

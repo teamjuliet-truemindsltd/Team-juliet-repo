@@ -31,7 +31,7 @@ export class UsersService {
   }
 
   async findByEmail(email: string) {
-    return this.userRepo.findOne({ where: { email }, select: ['id', 'email', 'password', 'role', 'isActive', 'firstName', 'lastName'] });
+    return this.userRepo.findOne({ where: { email }, select: ['id', 'email', 'password', 'role', 'isActive', 'firstName', 'lastName', 'isVerified'] });
   }
 
   async updateProfile(id: number, updateData: UpdateProfileDto) {

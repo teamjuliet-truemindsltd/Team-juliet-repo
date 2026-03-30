@@ -33,7 +33,63 @@
 								"register"
 							]
 						},
-						"description": "Register a new user (student or instructor)"
+						"description": "Register a new user. Does NOT return a JWT. A verification code will be sent to the email provided."
+					},
+					"response": []
+				},
+				{
+					"name": "Verify OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"john@example.com\",\n    \"code\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/verify-otp",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"verify-otp"
+							]
+						},
+						"description": "Verify the email address using the 6-digit OTP sent during registration."
+					},
+					"response": []
+				},
+				{
+					"name": "Resend OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"john@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/resend-otp",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"resend-otp"
+							]
+						},
+						"description": "Request a new verification code if the previous one expired or was not received."
 					},
 					"response": []
 				},
@@ -72,7 +128,7 @@
 								"login"
 							]
 						},
-						"description": "Login with email and password. Automatically sets the `jwtToken` environment variable on success."
+						"description": "Login with email and password. Requires the email to be verified. Automatically sets the `jwtToken` environment variable on success."
 					},
 					"response": []
 				},
