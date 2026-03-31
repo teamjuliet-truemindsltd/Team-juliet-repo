@@ -16,7 +16,9 @@ The project leverages industry-standard technologies to ensure high performance,
 | **ORM** | [TypeORM](https://typeorm.io/) |
 | **Auth** | [JWT](https://jwt.io/) & [Passport](https://www.passportjs.org/) |
 | **Security** | Bcrypt (Password Hashing), RBAC (Role-Based Access Control) |
+| **Media Hosting** | [Cloudinary](https://cloudinary.com/) (Video & Image Hosting) |
 | **API Docs** | [Swagger / OpenAPI 3.0](https://swagger.io/) |
+
 | **Infrastucture** | [Docker](https://www.docker.com/) |
 
 ---
@@ -38,7 +40,10 @@ cp .env.example .env
 ```
 
 > [!IMPORTANT]
-> Make sure to open your new `.env` file and fill in your **SMTP Mail** credentials (e.g., a Gmail App Password) so that the system can deliver OTP verification emails.
+> Make sure to open your new `.env` file and fill in your:
+> 1. **SMTP Mail** credentials (e.g., a Gmail App Password) so that the system can deliver OTP verification emails.
+> 2. **Cloudinary** credentials (`CLOUD_NAME`, `API_KEY`, `API_SECRET`) to enable video and media uploads.
+
 
 ### Step 2: Launch Infrastructure (Docker)
 
@@ -103,6 +108,37 @@ For dedicated API testing, import the collection found in:
 | PATCH | `/:id/deactivate`| Disable a user's account | Yes | Admin |
 | PATCH | `/:id/activate` | Enable a user's account | Yes | Admin |
 
+#### Media & Video Uploads (`/api/v1/media`)
+| Method | Endpoint | Description | Auth Required | Roles |
+| :--- | :--- | :--- | :--- | :--- |
+| POST | `/upload/video` | Upload a video file to Cloudinary | Yes | Instructor, Admin |
+
+#### Courses Management (`/api/v1/courses`)
+| Method | Endpoint | Description | Auth Required | Roles |
+| :--- | :--- | :--- | :--- | :--- |
+| POST | `/` | Create a new course | Yes | Instructor, Admin |
+| GET | `/` | List all published courses (Paginated) | No | Any |
+| GET | `/:id` | Get course details | No | Any |
+| PATCH | `/:id` | Update course details | Yes | Instructor, Admin |
+| DELETE | `/:id` | Remove a course | Yes | Instructor, Admin |
+| POST | `/:id/modules` | Add a module to a course | Yes | Instructor, Admin |
+| GET | `/:id/modules` | Get modules for a course | Yes | Any |
+
+#### Lessons Management (`/api/v1/lessons`)
+| Method | Endpoint | Description | Auth Required | Roles |
+| :--- | :--- | :--- | :--- | :--- |
+| POST | `/?moduleId=...` | Create a lesson in a module | Yes | Instructor, Admin |
+| GET | `/:id` | Get lesson content | Yes | Any |
+| PATCH | `/:id` | Update lesson details | Yes | Instructor, Admin |
+| DELETE | `/:id` | Remove a lesson | Yes | Instructor, Admin |
+
+#### Enrollments & Progress (`/api/v1`)
+| Method | Endpoint | Description | Auth Required | Roles |
+| :--- | :--- | :--- | :--- | :--- |
+| POST | `/courses/:id/enroll` | Enroll in a course | Yes | Student |
+| GET | `/users/me/enrollments` | Get my enrolled courses & progress| Yes | Student |
+| POST | `/lessons/:id/complete`| Mark a lesson as completed | Yes | Student |
+
 ---
 
 ## 🔍 Database Management
@@ -143,7 +179,10 @@ src/
 │   ├── dto/               # Auth-related DTOs
 │   ├── guards/            # JWT and Role-based guards
 │   └── ...
+├── cloudinary/            # Cloudinary SDK provider and upload service
+├── media/                 # Media controller for file upload endpoints
 ├── common/                # Shared utilities, filters, and pipes
+
 │   └── enums/             # Global enums (e.g., UserRole)
 └── users/                 # Core User management module
     ├── entities/          # TypeORM Entity definitions
@@ -160,6 +199,19 @@ The platform includes a robust **One-Time Password (OTP)** verification flow and
 - **Verified Users Only**: New users cannot log in until they verify their email via the `/api/v1/auth/verify-otp` endpoint.
 - **Transactional Outbox Pattern**: To guarantee email delivery, OTP emails are not sent synchronously during the registration request. Instead, they are safely written to the `outbox` database table within the same **database transaction** as the user creation.
 - **Background Worker**: A scheduled background cron job (`@nestjs/schedule`) continuously scans the outbox and delivers pending emails using NodeMailer, complete with automatic retries for failed deliveries.
+
+---
+
+## 🎥 Video & Media Uploads
+
+The platform supports high-performance video uploads powered by **Cloudinary**.
+
+- **Stateless Streaming**: To avoid taxing the server's disk space, video files are streamed directly from the incoming request buffer to Cloudinary using `streamifier`.
+- **Validation**:
+  - Max File Size: **100MB**.
+  - Allowed Formats: `.mp4`, `.mkv`, `.avi`.
+- **Usage**: Upon a successful upload to `/api/v1/media/upload/video`, the API returns a secure HTTPS URL. This URL can then be saved as the `contentUrl` for a Lesson in the Courses module.
+
 
 ---
 

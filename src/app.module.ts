@@ -8,6 +8,11 @@ import { UsersModule } from './users/users.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { OutboxModule } from './outbox/outbox.module';
+import { CoursesModule } from './courses/courses.module';
+import { LessonsModule } from './lessons/lessons.module';
+import { EnrollmentsModule } from './enrollments/enrollments.module';
+import { MediaModule } from './media/media.module';
+
 
 @Module({
   imports: [
@@ -33,6 +38,11 @@ import { OutboxModule } from './outbox/outbox.module';
     NotificationsModule,
     ScheduleModule.forRoot(),
     OutboxModule,
+    CoursesModule,
+    LessonsModule,
+    EnrollmentsModule,
+    MediaModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],
