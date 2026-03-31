@@ -119,4 +119,12 @@ export class CoursesService {
     if (!module) throw new NotFoundException('Module not found');
     return module;
   }
+
+  async countAll() {
+    return await this.courseRepository.count();
+  }
+
+  async countByInstructor(instructorId: number) {
+    return await this.courseRepository.count({ where: { instructorId } });
+  }
 }

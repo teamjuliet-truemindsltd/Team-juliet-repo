@@ -148,6 +148,11 @@ For dedicated API testing, import the collection found in:
 | GET | `/users/me/enrollments` | Get my enrolled courses & progress| Yes | Student |
 | POST | `/lessons/:id/complete`| Mark a lesson as completed | Yes | Student |
 
+#### Dashboard & Analytics (`/api/v1/dashboard`)
+| Method | Endpoint | Description | Auth Required | Roles |
+| :--- | :--- | :--- | :--- | :--- |
+| GET | `/` | Get role-based dashboard statistics | Yes | Any |
+
 ---
 
 ## 🔍 Database Management
@@ -193,10 +198,19 @@ src/
 ├── common/                # Shared utilities, filters, and pipes
 
 │   └── enums/             # Global enums (e.g., UserRole)
-└── users/                 # Core User management module
-    ├── entities/          # TypeORM Entity definitions
-    ├── dto/               # User-related DTOs
-    └── ...
+├── users/                 # Core User management module
+│   ├── entities/          # TypeORM Entity definitions
+│   ├── dto/               # User-related DTOs
+│   └── ...
+├── courses/               # Course & Module management
+├── lessons/               # Lesson content management
+├── enrollments/           # Student enrollment & progress tracking
+├── notifications/         # Email & OTP notification system
+├── outbox/                # Transactional outbox for guaranteed delivery
+└── dashboard/             # Role-based analytics module
+    ├── dashboard.controller.ts
+    ├── dashboard.service.ts
+    └── dashboard.module.ts
 ```
 
 ---

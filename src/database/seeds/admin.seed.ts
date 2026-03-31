@@ -10,13 +10,13 @@ import { Repository } from 'typeorm';
 async function bootstrap() {
   console.log('Starting admin seeder...');
   const app = await NestFactory.createApplicationContext(AppModule);
-  
+
   const userRepo = app.get<Repository<User>>(getRepositoryToken(User));
 
   const adminEmail = 'admin@trueminds.io';
-  
+
   const existingAdmin = await userRepo.findOne({ where: { email: adminEmail } });
-  
+
   if (existingAdmin) {
     console.log(`Admin user with email ${adminEmail} already exists. Skipping.`);
   } else {
@@ -29,7 +29,7 @@ async function bootstrap() {
       role: UserRole.ADMIN,
       isActive: true,
     });
-    
+
     await userRepo.save(admin);
     console.log(`Admin user created!`);
     console.log(`Email: ${adminEmail}`);

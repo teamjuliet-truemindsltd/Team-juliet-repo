@@ -106,4 +106,36 @@ export class EnrollmentsService {
       courseProgress: percentage
     };
   }
+
+  async countAll() {
+    return await this.enrollmentRepository.count();
+  }
+
+  async countByInstructor(instructorId: number) {
+    return await this.enrollmentRepository.createQueryBuilder('enrollment')
+      .innerJoin('enrollment.course', 'course')
+      .where('course.instructorId = :instructorId', { instructorId })
+      .getCount();
+  }
+
+  async countUniqueStudentsByInstructor(instructorId: number) {
+    const result = await this.enrollmentRepository.createQueryBuilder('enrollment')
+      .select('COUNT(DISTINCT enrollment.userId)', 'count')
+      .innerJoin('enrollment.course', 'course')
+      .where('course.instructorId = :instructorId', { instructorId })
+      .getRawOne();
+    return parseInt(result.count, 10) || 0;
+  }
+
+  async getMostPopularCourseByInstructor(instructorId: number) {
+    return await this.enrollmentRepository.createQueryBuilder('enrollment')
+      .select('course.title', 'title')
+      .addSelect('COUNT(enrollment.id)', 'enrollmentCount')
+      .innerJoin('enrollment.course', 'course')
+      .where('course.instructorId = :instructorId', { instructorId })
+      .groupBy('course.id')
+      .orderBy('enrollmentCount', 'DESC')
+      .limit(1)
+      .getRawOne();
+  }
 }

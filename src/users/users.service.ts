@@ -62,4 +62,12 @@ export class UsersService {
     await this.userRepo.update(id, { isActive });
     return this.findById(id);
   }
+
+  async countByRole(role: UserRole) {
+    return await this.userRepo.count({ where: { role } });
+  }
+
+  async countAll() {
+    return await this.userRepo.count();
+  }
 }

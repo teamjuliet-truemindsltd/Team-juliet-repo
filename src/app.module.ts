@@ -12,6 +12,7 @@ import { CoursesModule } from './courses/courses.module';
 import { LessonsModule } from './lessons/lessons.module';
 import { EnrollmentsModule } from './enrollments/enrollments.module';
 import { MediaModule } from './media/media.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 
 @Module({
@@ -42,7 +43,7 @@ import { MediaModule } from './media/media.module';
     LessonsModule,
     EnrollmentsModule,
     MediaModule,
-
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [AppService],
