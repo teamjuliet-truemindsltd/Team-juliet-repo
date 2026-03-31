@@ -40,4 +40,11 @@ async function bootstrap() {
   console.log('Seeder completed.');
 }
 
-bootstrap();
+bootstrap()
+  .then(() => {
+    process.exit(0);
+  })
+  .catch((err) => {
+    console.error('Seeder failed:', err);
+    process.exit(1);
+  });
