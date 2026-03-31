@@ -4,6 +4,14 @@ Welcome to the backend of the **TrueMinds TalentFlow LMS**, a robust and scalabl
 
 ---
 
+### 🌐 Live Hosting
+The API is currently live and accessible at:
+👉 **[https://backend-lms-0kw1.onrender.com/api/v1](https://backend-lms-0kw1.onrender.com/api/v1)**
+
+---
+
+---
+
 ## 🛠 Tech Stack
 
 The project leverages industry-standard technologies to ensure high performance, security, and developer productivity:
@@ -75,7 +83,8 @@ The backend is fully documented and testable out of the box.
 
 ### 1. Swagger UI
 Interactive documentation is available at:
-👉 **[http://localhost:3000/api/v1/docs](http://localhost:3000/api/v1/docs)**
+👉 Local: **[http://localhost:3000/api/v1/docs](http://localhost:3000/api/v1/docs)**
+👉 Live: **[https://backend-lms-0kw1.onrender.com/api/v1/docs](https://backend-lms-0kw1.onrender.com/api/v1/docs)**
 
 ### 2. Postman Collection
 For dedicated API testing, import the collection found in:
@@ -221,6 +230,24 @@ The platform supports high-performance video uploads powered by **Cloudinary**.
 - **JWT Authentication**: Stateless authentication using secure JSON Web Tokens.
 - **RBAC**: Fine-grained access control using `@Roles(UserRole.ADMIN)`.
 - **Validation**: Strict input validation using `class-validator` and global `ValidationPipe`.
+
+---
+
+## 🏥 Health Check
+
+The API includes a dedicated health check endpoint to monitor the system status and uptime. This is also used by Cloud hosting providers (like Render) to verify the service is running correctly.
+
+- **Endpoint**: `GET /api/v1/health`
+- **Live URL**: [https://backend-lms-0kw1.onrender.com/api/v1/health](https://backend-lms-0kw1.onrender.com/api/v1/health)
+
+**Response Example:**
+```json
+{
+  "status": "ok",
+  "timestamp": "2024-03-31T14:55:00.000Z",
+  "uptime": 12345.67
+}
+```
 
 ---
 
