@@ -17,7 +17,7 @@ export class Assignment {
   dueDate: Date;
 
   @Column()
-  courseId: number; // Will be added when courses module exists
+  courseId: string; // Will be added when courses module exists
 
   @ManyToOne(() => User)
   instructor: User;

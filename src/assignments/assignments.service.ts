@@ -29,7 +29,7 @@ export class AssignmentsService {
     return this.assignmentRepo.save(assignment);
   }
 
-  async findAllByCourse(courseId: number) {
+  async findAllByCourse(courseId: string) {
     return this.assignmentRepo.find({
       where: { courseId },
       relations: ['instructor'],

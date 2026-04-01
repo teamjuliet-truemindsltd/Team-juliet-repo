@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsDateString, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsDateString, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateAssignmentDto {
@@ -17,6 +17,6 @@ export class CreateAssignmentDto {
   dueDate: string;
 
   @ApiProperty()
-  @IsNumber()
-  courseId: number;
+  @IsUUID()
+  courseId: string;
 }

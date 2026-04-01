@@ -30,7 +30,7 @@ export class AssignmentsController {
 
   @Get('course/:courseId')
   @ApiOperation({ summary: 'Get assignments for a course' })
-  findByCourse(@Param('courseId', ParseIntPipe) courseId: number) {
+  findByCourse(@Param('courseId') courseId: string) {
     return this.assignmentsService.findAllByCourse(courseId);
   }
 

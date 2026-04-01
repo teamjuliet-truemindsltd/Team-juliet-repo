@@ -18,7 +18,14 @@ async function bootstrap() {
   const existingAdmin = await userRepo.findOne({ where: { email: adminEmail } });
 
   if (existingAdmin) {
-    console.log(`Admin user with email ${adminEmail} already exists. Skipping.`);
+    console.log(`Admin user with email ${adminEmail} already exists.`);
+    if (!existingAdmin.isVerified) {
+      existingAdmin.isVerified = true;
+      await userRepo.save(existingAdmin);
+      console.log(`Admin user verified!`);
+    } else {
+      console.log(`Admin user is already verified. Skipping.`);
+    }
   } else {
     const hashedPassword = await bcrypt.hash('superadmin123', 10);
     const admin = userRepo.create({
@@ -28,6 +35,7 @@ async function bootstrap() {
       password: hashedPassword,
       role: UserRole.ADMIN,
       isActive: true,
+      isVerified: true,
     });
 
     await userRepo.save(admin);
