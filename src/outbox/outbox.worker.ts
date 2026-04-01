@@ -70,6 +70,9 @@ export class OutboxWorker {
     if (message.type === 'OTP_EMAIL') {
       const { email, code } = message.payload;
       await this.notificationsService.sendOtpEmail(email, code);
+    } else if (message.type === 'PASSWORD_RESET_EMAIL') {
+      const { email, code } = message.payload;
+      await this.notificationsService.sendPasswordResetEmail(email, code);
     } else {
       this.logger.warn(`Unknown outbox message type: ${message.type}`);
     }

@@ -51,4 +51,21 @@ export class NotificationsService {
     `;
     return this.sendEmail(email, subject, html);
   }
+
+  async sendPasswordResetEmail(email: string, otp: string) {
+    const subject = 'Password Reset Request - TrueMinds TalentFlow';
+    const html = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+        <h2 style="color: #333; text-align: center;">Password Reset Request</h2>
+        <p>A request has been made to reset your password. Please use the following One-Time Password (OTP) to proceed:</p>
+        <div style="font-size: 32px; font-weight: bold; text-align: center; margin: 30px 0; color: #dc3545; letter-spacing: 5px;">
+          ${otp}
+        </div>
+        <p>This code is valid for 10 minutes. If you did not request this password reset, please ignore this email and your password will remain unchanged.</p>
+        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+        <p style="font-size: 12px; color: #777; text-align: center;">&copy; 2026 TrueMinds TalentFlow LMS. All rights reserved.</p>
+      </div>
+    `;
+    return this.sendEmail(email, subject, html);
+  }
 }

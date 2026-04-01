@@ -103,6 +103,8 @@ For dedicated API testing, import the collection found in:
 | POST | `/verify-otp` | Verify account via email OTP | No |
 | POST | `/resend-otp` | Resend verification OTP | No |
 | POST | `/login` | Authenticate and receive JWT | No |
+| POST | `/forgot-password` | Request password reset code | No |
+| POST | `/reset-password` | Reset password using OTP code | No |
 | GET | `/me` | Get current user's security profile | Yes |
 
 #### User Management (`/api/v1/users`)
@@ -220,8 +222,10 @@ src/
 The platform includes a robust **One-Time Password (OTP)** verification flow and an asynchronous notification system.
 
 - **Verified Users Only**: New users cannot log in until they verify their email via the `/api/v1/auth/verify-otp` endpoint.
-- **Transactional Outbox Pattern**: To guarantee email delivery, OTP emails are not sent synchronously during the registration request. Instead, they are safely written to the `outbox` database table within the same **database transaction** as the user creation.
-- **Background Worker**: A scheduled background cron job (`@nestjs/schedule`) continuously scans the outbox and delivers pending emails using NodeMailer, complete with automatic retries for failed deliveries.
+- **Secure Password Recovery**: Users can securely reset forgotten passwords using the `/api/v1/auth/forgot-password` and `/api/v1/auth/reset-password` flow.
+- **Context-Aware OTPs**: The system uses a `purpose` flag (e.g., `VERIFY_EMAIL`, `RESET_PASSWORD`) to ensure OTPs are used only for their intended action.
+- **Transactional Outbox Pattern**: To guarantee email delivery, OTP emails are not sent synchronously during the request. Instead, they are safely written to the `outbox` database table within the same **database transaction** as the associated user update.
+- **Background Worker**: A scheduled background cron job (`@nestjs/schedule`) continuously scans the outbox and delivers pending emails (Verification or Password Reset) using NodeMailer, complete with automatic retries for failed deliveries.
 
 ---
 

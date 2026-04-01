@@ -16,6 +16,9 @@ export class Otp {
   @Column({ length: 6 })
   code: string;
 
+  @Column({ default: 'VERIFY_EMAIL' })
+  purpose: string;
+
   @Column()
   expiresAt: Date;
 
