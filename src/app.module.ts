@@ -13,6 +13,7 @@ import { LessonsModule } from './lessons/lessons.module';
 import { EnrollmentsModule } from './enrollments/enrollments.module';
 import { MediaModule } from './media/media.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { AssignmentsModule } from './assignments/assignments.module';
 
 
 @Module({
@@ -44,6 +45,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     EnrollmentsModule,
     MediaModule,
     DashboardModule,
+    AssignmentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
