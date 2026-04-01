@@ -4,6 +4,7 @@ import { AssignmentsService } from './assignments.service';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
 import { SubmitAssignmentDto } from './dto/submit-assignment.dto';
 import { GradeSubmissionDto } from './dto/grade-submission.dto';
+import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
@@ -24,8 +25,8 @@ export class AssignmentsController {
   @Post()
   @Roles(UserRole.INSTRUCTOR)
   @ApiOperation({ summary: 'Create a new assignment' })
-  create(@Body() createDto: CreateAssignmentDto, @CurrentUser() user: User) {
-    return this.assignmentsService.create(createDto, user);
+  create(@Body() createDto: CreateAssignmentDto, @CurrentUser() user: JwtPayload) {
+    return this.assignmentsService.create(createDto, user.sub);
   }
 
   @Get('course/:courseId')
@@ -68,16 +69,16 @@ export class AssignmentsController {
     @Param('id', ParseIntPipe) assignmentId: number,
     @UploadedFiles() files: { files?: Express.Multer.File[] },
     @Body() submitDto: SubmitAssignmentDto,
-    @CurrentUser() user: User,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.assignmentsService.submit(assignmentId, user, files.files || []);
+    return this.assignmentsService.submit(assignmentId, user.sub, files.files || []);
   }
 
   @Get(':id/submissions')
   @Roles(UserRole.INSTRUCTOR)
   @ApiOperation({ summary: 'Get submissions for an assignment' })
-  findSubmissions(@Param('id', ParseIntPipe) assignmentId: number, @CurrentUser() user: User) {
-    return this.assignmentsService.findSubmissions(assignmentId, user);
+  findSubmissions(@Param('id', ParseIntPipe) assignmentId: number, @CurrentUser() user: JwtPayload) {
+    return this.assignmentsService.findSubmissions(assignmentId, user.sub);
   }
 
   @Patch('submissions/:submissionId/grade')
@@ -86,8 +87,8 @@ export class AssignmentsController {
   gradeSubmission(
     @Param('submissionId', ParseIntPipe) submissionId: number,
     @Body() gradeDto: GradeSubmissionDto,
-    @CurrentUser() user: User,
+    @CurrentUser() user: JwtPayload,
   ) {
-    return this.assignmentsService.gradeSubmission(submissionId, gradeDto, user);
+    return this.assignmentsService.gradeSubmission(submissionId, gradeDto, user.sub);
   }
 }

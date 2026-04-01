@@ -21,10 +21,10 @@ export class AssignmentsService {
     private outboxService: OutboxService,
   ) {}
 
-  async create(createDto: CreateAssignmentDto, instructor: User) {
+  async create(createDto: CreateAssignmentDto, instructorId: number) {
     const assignment = this.assignmentRepo.create({
       ...createDto,
-      instructorId: instructor.id,
+      instructorId,
     });
     return this.assignmentRepo.save(assignment);
   }
@@ -37,7 +37,7 @@ export class AssignmentsService {
     });
   }
 
-  async submit(assignmentId: number, student: User, files: Express.Multer.File[]) {
+  async submit(assignmentId: number, studentId: number, files: Express.Multer.File[]) {
     const assignment = await this.assignmentRepo.findOne({ where: { id: assignmentId } });
     if (!assignment) throw new NotFoundException('Assignment not found');
 
@@ -47,7 +47,7 @@ export class AssignmentsService {
 
     const submission = this.submissionRepo.create({
       assignmentId,
-      studentId: student.id,
+      studentId: studentId,
       submittedAt: new Date(),
     });
     const savedSubmission = await this.submissionRepo.save(submission);
@@ -65,21 +65,21 @@ export class AssignmentsService {
     // Notify instructor via outbox
     await this.outboxService.add('ASSIGNMENT_SUBMITTED', {
       assignmentId,
-      studentId: student.id,
+      studentId: studentId,
       instructorId: assignment.instructorId,
     });
 
     return savedSubmission;
   }
 
-  async gradeSubmission(submissionId: number, gradeDto: GradeSubmissionDto, instructor: User) {
+  async gradeSubmission(submissionId: number, gradeDto: GradeSubmissionDto, instructorId: number) {
     const submission = await this.submissionRepo.findOne({
       where: { id: submissionId },
       relations: ['assignment'],
     });
     if (!submission) throw new NotFoundException('Submission not found');
 
-    if (submission.assignment.instructorId !== instructor.id) {
+    if (submission.assignment.instructorId !== instructorId) {
       throw new ForbiddenException('Only the instructor can grade this submission');
     }
 
@@ -91,9 +91,9 @@ export class AssignmentsService {
     return this.submissionRepo.save(submission);
   }
 
-  async findSubmissions(assignmentId: number, instructor: User) {
+  async findSubmissions(assignmentId: number, instructorId: number) {
     const assignment = await this.assignmentRepo.findOne({ where: { id: assignmentId } });
-    if (!assignment || assignment.instructorId !== instructor.id) {
+    if (!assignment || assignment.instructorId !== instructorId) {
       throw new ForbiddenException('Access denied');
     }
 
