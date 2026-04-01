@@ -85,7 +85,9 @@ export class AssignmentsService {
 
     submission.score = gradeDto.score;
     submission.maxScore = gradeDto.maxScore;
-    submission.feedback = gradeDto.feedback;
+    if (gradeDto.feedback) {
+      submission.feedback = gradeDto.feedback;
+    }
     return this.submissionRepo.save(submission);
   }
 
