@@ -15,6 +15,7 @@ import { MediaModule } from './media/media.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AssignmentsModule } from './assignments/assignments.module';
 import { ProgressModule } from './progress/progress.module';
+import { CollaborationModule } from './collaboration/collaboration.module';
 
 
 @Module({
@@ -48,6 +49,7 @@ import { ProgressModule } from './progress/progress.module';
     DashboardModule,
     AssignmentsModule,
     ProgressModule,
+    CollaborationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
