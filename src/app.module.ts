@@ -14,6 +14,7 @@ import { EnrollmentsModule } from './enrollments/enrollments.module';
 import { MediaModule } from './media/media.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AssignmentsModule } from './assignments/assignments.module';
+import { ProgressModule } from './progress/progress.module';
 
 
 @Module({
@@ -46,6 +47,7 @@ import { AssignmentsModule } from './assignments/assignments.module';
     MediaModule,
     DashboardModule,
     AssignmentsModule,
+    ProgressModule,
   ],
   controllers: [AppController],
   providers: [AppService],
