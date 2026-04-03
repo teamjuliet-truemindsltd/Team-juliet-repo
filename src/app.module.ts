@@ -13,6 +13,9 @@ import { LessonsModule } from './lessons/lessons.module';
 import { EnrollmentsModule } from './enrollments/enrollments.module';
 import { MediaModule } from './media/media.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { AssignmentsModule } from './assignments/assignments.module';
+import { ProgressModule } from './progress/progress.module';
+import { CollaborationModule } from './collaboration/collaboration.module';
 
 
 @Module({
@@ -44,6 +47,9 @@ import { DashboardModule } from './dashboard/dashboard.module';
     EnrollmentsModule,
     MediaModule,
     DashboardModule,
+    AssignmentsModule,
+    ProgressModule,
+    CollaborationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

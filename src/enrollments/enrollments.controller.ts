@@ -6,6 +6,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../common/enums/user-role.enum';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import type { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
 
 @ApiTags('Enrollments & Progress')
 @Controller('api/v1')
@@ -17,16 +18,16 @@ export class EnrollmentsController {
   @Roles(UserRole.STUDENT, UserRole.INSTRUCTOR, UserRole.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Enroll in a specific course' })
-  enroll(@Param('courseId') courseId: string, @CurrentUser() user: any) {
-    return this.enrollmentsService.enrollUser(user.id, courseId);
+  enroll(@Param('courseId') courseId: string, @CurrentUser() user: JwtPayload) {
+    return this.enrollmentsService.enrollUser(user.sub, courseId);
   }
 
   @Get('users/me/enrollments')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get my enrolled courses and progress' })
-  getMyEnrollments(@CurrentUser() user: any) {
-    return this.enrollmentsService.getUserEnrollments(user.id);
+  getMyEnrollments(@CurrentUser() user: JwtPayload) {
+    return this.enrollmentsService.getUserEnrollments(user.sub);
   }
 
   @Post('lessons/:lessonId/complete')
@@ -34,7 +35,7 @@ export class EnrollmentsController {
   @Roles(UserRole.STUDENT)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Mark a lesson as complete and update progress' })
-  markComplete(@Param('lessonId') lessonId: string, @CurrentUser() user: any) {
-    return this.enrollmentsService.markLessonComplete(user.id, lessonId);
+  markComplete(@Param('lessonId') lessonId: string, @CurrentUser() user: JwtPayload) {
+    return this.enrollmentsService.markLessonComplete(user.sub, lessonId);
   }
 }
