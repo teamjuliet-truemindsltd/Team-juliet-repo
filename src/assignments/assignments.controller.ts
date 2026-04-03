@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Param, UseGuards, UseInterceptors, UploadedFiles, ParseIntPipe, Patch } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiConsumes, ApiBody, ApiResponse } from '@nestjs/swagger';
 import { AssignmentsService } from './assignments.service';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
 import { SubmitAssignmentDto } from './dto/submit-assignment.dto';
@@ -25,12 +25,20 @@ export class AssignmentsController {
   @Post()
   @Roles(UserRole.INSTRUCTOR)
   @ApiOperation({ summary: 'Create a new assignment' })
+  @ApiResponse({ status: 201, description: 'Assignment created successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid assignment data' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 403, description: 'Only instructors can create assignments' })
+  @ApiResponse({ status: 404, description: 'Course not found' })
   create(@Body() createDto: CreateAssignmentDto, @CurrentUser() user: JwtPayload) {
     return this.assignmentsService.create(createDto, user.sub);
   }
 
   @Get('course/:courseId')
   @ApiOperation({ summary: 'Get assignments for a course' })
+  @ApiResponse({ status: 200, description: 'List of assignments' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 404, description: 'Course not found' })
   findByCourse(@Param('courseId') courseId: string) {
     return this.assignmentsService.findAllByCourse(courseId);
   }
@@ -65,6 +73,11 @@ export class AssignmentsController {
     },
   })
   @ApiOperation({ summary: 'Submit assignment with files' })
+  @ApiResponse({ status: 201, description: 'Assignment submitted successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid submission' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 403, description: 'Only students can submit' })
+  @ApiResponse({ status: 404, description: 'Assignment not found' })
   submit(
     @Param('id', ParseIntPipe) assignmentId: number,
     @UploadedFiles() files: { files?: Express.Multer.File[] },
@@ -77,6 +90,10 @@ export class AssignmentsController {
   @Get(':id/submissions')
   @Roles(UserRole.INSTRUCTOR)
   @ApiOperation({ summary: 'Get submissions for an assignment' })
+  @ApiResponse({ status: 200, description: 'List of submissions' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 403, description: 'Only instructors can view submissions' })
+  @ApiResponse({ status: 404, description: 'Assignment not found' })
   findSubmissions(@Param('id', ParseIntPipe) assignmentId: number, @CurrentUser() user: JwtPayload) {
     return this.assignmentsService.findSubmissions(assignmentId, user.sub);
   }
@@ -84,6 +101,11 @@ export class AssignmentsController {
   @Patch('submissions/:submissionId/grade')
   @Roles(UserRole.INSTRUCTOR)
   @ApiOperation({ summary: 'Grade a submission' })
+  @ApiResponse({ status: 200, description: 'Submission graded successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid grade data' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 403, description: 'Only instructors can grade' })
+  @ApiResponse({ status: 404, description: 'Submission not found' })
   gradeSubmission(
     @Param('submissionId', ParseIntPipe) submissionId: number,
     @Body() gradeDto: GradeSubmissionDto,
