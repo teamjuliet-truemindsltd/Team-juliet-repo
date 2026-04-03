@@ -439,6 +439,593 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Assignments",
+			"item": [
+				{
+					"name": "Create Assignment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"courseId\": \"c7eaf696-2c92-4c46-bc08-c7f4386b8c3c\",\n    \"title\": \"Build a REST API with NestJS\",\n    \"description\": \"Create a complete REST API following best practices\",\n    \"dueDate\": \"2026-04-15T23:59:59Z\",\n    \"maxScore\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/assignments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assignments"
+							]
+						},
+						"description": "Create a new assignment (Instructor only)."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Course Assignments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/assignments/course/c7eaf696-2c92-4c46-bc08-c7f4386b8c3c",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assignments",
+								"course",
+								"c7eaf696-2c92-4c46-bc08-c7f4386b8c3c"
+							]
+						},
+						"description": "Get all assignments for a specific course."
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Assignment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/path/to/assignment.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/assignments/550e8400-e29b-41d4-a716-446655440000/submit",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assignments",
+								"550e8400-e29b-41d4-a716-446655440000",
+								"submit"
+							]
+						},
+						"description": "Submit an assignment with file upload."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Assignment Submissions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/assignments/550e8400-e29b-41d4-a716-446655440000/submissions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assignments",
+								"550e8400-e29b-41d4-a716-446655440000",
+								"submissions"
+							]
+						},
+						"description": "Get all submissions for an assignment (Instructor only)."
+					},
+					"response": []
+				},
+				{
+					"name": "Grade Assignment Submission",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"score\": 85,\n    \"feedback\": \"Great work! Well-structured code with good error handling.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/assignments/submissions/660e8400-e29b-41d4-a716-446655440001/grade",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assignments",
+								"submissions",
+								"660e8400-e29b-41d4-a716-446655440001",
+								"grade"
+							]
+						},
+						"description": "Grade an assignment submission with score and feedback (Instructor only)."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Progress",
+			"item": [
+				{
+					"name": "Get My Course Progress",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/progress/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"progress",
+								"me"
+							]
+						},
+						"description": "Get current user's progress across all enrolled courses."
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Course Detailed Progress",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/progress/me/course/c7eaf696-2c92-4c46-bc08-c7f4386b8c3c",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"progress",
+								"me",
+								"course",
+								"c7eaf696-2c92-4c46-bc08-c7f4386b8c3c"
+							]
+						},
+						"description": "Get detailed progress for a specific course (lessons, assignments, scores)."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Students Progress in Course",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/progress/course/c7eaf696-2c92-4c46-bc08-c7f4386b8c3c/students",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"progress",
+								"course",
+								"c7eaf696-2c92-4c46-bc08-c7f4386b8c3c",
+								"students"
+							]
+						},
+						"description": "Get progress of all students in a course (Instructor only)."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Course Analytics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/progress/course/c7eaf696-2c92-4c46-bc08-c7f4386b8c3c/analytics",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"progress",
+								"course",
+								"c7eaf696-2c92-4c46-bc08-c7f4386b8c3c",
+								"analytics"
+							]
+						},
+						"description": "Get aggregate analytics for a course (Instructor only)."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Collaboration",
+			"item": [
+				{
+					"name": "Forum - Create Thread",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"courseId\": \"c7eaf696-2c92-4c46-bc08-c7f4386b8c3c\",\n    \"title\": \"Discussion on NestJS Best Practices\",\n    \"content\": \"What are your thoughts on using DTOs with class-validator?\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/collaboration/forum/threads",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"collaboration",
+								"forum",
+								"threads"
+							]
+						},
+						"description": "Create a new forum thread in a course."
+					},
+					"response": []
+				},
+				{
+					"name": "Forum - Get Threads by Course",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/collaboration/forum/threads/course/c7eaf696-2c92-4c46-bc08-c7f4386b8c3c",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"collaboration",
+								"forum",
+								"threads",
+								"course",
+								"c7eaf696-2c92-4c46-bc08-c7f4386b8c3c"
+							]
+						},
+						"description": "Get all forum threads (pinned first) for a specific course."
+					},
+					"response": []
+				},
+				{
+					"name": "Forum - Get Thread with Replies",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/collaboration/forum/threads/092a545e-24d6-4a9e-8b93-d72019960c41",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"collaboration",
+								"forum",
+								"threads",
+								"092a545e-24d6-4a9e-8b93-d72019960c41"
+							]
+						},
+						"description": "Get a specific forum thread with all its replies."
+					},
+					"response": []
+				},
+				{
+					"name": "Forum - Add Reply to Thread",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"Great point! I completely agree with this approach.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/collaboration/forum/threads/092a545e-24d6-4a9e-8b93-d72019960c41/replies",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"collaboration",
+								"forum",
+								"threads",
+								"092a545e-24d6-4a9e-8b93-d72019960c41",
+								"replies"
+							]
+						},
+						"description": "Add a reply to a forum thread."
+					},
+					"response": []
+				},
+				{
+					"name": "Messages - Send Direct Message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipientId\": 3,\n    \"body\": \"Hi, I have a question about the assignment deadline.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/collaboration/messages",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"collaboration",
+								"messages"
+							]
+						},
+						"description": "Send a direct message to another user."
+					},
+					"response": []
+				},
+				{
+					"name": "Messages - Get Inbox",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/collaboration/messages/inbox",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"collaboration",
+								"messages",
+								"inbox"
+							]
+						},
+						"description": "Get all incoming messages for the current user, sorted by newest first."
+					},
+					"response": []
+				},
+				{
+					"name": "Messages - Get Conversation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/collaboration/messages/conversation/3",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"collaboration",
+								"messages",
+								"conversation",
+								"3"
+							]
+						},
+						"description": "Get the message conversation history with a specific user."
+					},
+					"response": []
+				},
+				{
+					"name": "Messages - Mark as Read",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwtToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/collaboration/messages/6c1395f4-b771-4cf2-8f1c-ec033327df79/read",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"collaboration",
+								"messages",
+								"6c1395f4-b771-4cf2-8f1c-ec033327df79",
+								"read"
+							]
+						},
+						"description": "Mark a direct message as read."
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
